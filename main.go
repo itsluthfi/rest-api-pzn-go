@@ -1,8 +1,10 @@
 package main
 
 import (
+	"net/http"
 	"rest-api-pzn-go/app"
 	"rest-api-pzn-go/controller"
+	"rest-api-pzn-go/helper"
 	"rest-api-pzn-go/repository"
 	"rest-api-pzn-go/service"
 
@@ -26,5 +28,13 @@ func main() {
 	router.POST("/api/categories", categoryController.Create)
 	router.PUT("/api/categories/:categoryId", categoryController.Update)
 	router.DELETE("/api/categories/:categoryId", categoryController.Delete)
+
+	server := http.Server{
+		Addr:    "localhost:3000",
+		Handler: router,
+	}
+
+	err := server.ListenAndServe()
+	helper.PanicIfError(err)
 
 }
